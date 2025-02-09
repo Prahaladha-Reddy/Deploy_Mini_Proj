@@ -3,7 +3,7 @@ from langchain.chains.base import Chain
 from retrieval import RetrievalSystem
 from chunks import chunks_maker
 from retrieval import RetrievalSystem
-from rag import RAGPipeline
+from app.rag import RAGPipeline
 from typing import Dict, List, Any
 from langchain.chains.base import Chain
 import re

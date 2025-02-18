@@ -3,7 +3,7 @@ from langchain.chains.base import Chain
 from retrieval import RetrievalSystem
 from chunks import chunks_maker
 from retrieval import RetrievalSystem
-from app.rag import RAGPipeline
+from rag import RAGPipeline
 from typing import Dict, List, Any
 from langchain.chains.base import Chain
 import re
@@ -12,18 +12,21 @@ from langchain.chains import SequentialChain
 from langchain.chains import LLMChain
 from langchain.schema import HumanMessage, AIMessage
 from langchain_groq import ChatGroq
-chunks=chunks_maker(path="output_cleaned.md")
-chunks.makedown_splitter()
-final_chunks=chunks.recursive_character_splitter()
-retrival=RetrievalSystem()
-retrival.build_vector_store(final_chunks)
-rag=RAGPipeline(retrival)
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+import os
+
+os.environ["GOOGLE_API_KEY"]=os.getenv("GOOGLE_API_KEY")
+GOOGLE_API_KEY=os.getenv("GOOGLE_API_KEY")
+embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001",google_api_key=GOOGLE_API_KEY)
 
 chunks=chunks_maker(path="output_cleaned.md")
 chunks.makedown_splitter()
 final_chunks=chunks.recursive_character_splitter()
-retriever=RetrievalSystem()
+
+
+retriever=RetrievalSystem(embeddings)
 retriever.build_vector_store(final_chunks)
+rag=RAGPipeline(retriever)
 
 llm=ChatGroq()
 class DocumentRetrievalChain(Chain):

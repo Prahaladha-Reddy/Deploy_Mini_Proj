@@ -6,12 +6,7 @@ from typing import List, Any
 
 
 class RetrievalSystem:
-    def __init__(
-        self,
-        embedding_model: str = "sentence-transformers/all-mpnet-base-v2",
-        model_kwargs: dict = {"device": "cpu"},
-        search_kwargs: dict = {"k": 3}
-    ):
+    def __init__(self,embeddings_model):
         """
         Initialize the retrieval system with embedding model and search parameters.
         
@@ -20,11 +15,9 @@ class RetrievalSystem:
             model_kwargs: Arguments for the embedding model
             search_kwargs: Retrieval parameters (e.g., number of results to return)
         """
-        self.embedding_model = HuggingFaceEmbeddings(
-            model_name=embedding_model,
-            model_kwargs=model_kwargs
-        )
-        self.search_kwargs = search_kwargs
+
+        self.embedding_model = embeddings_model
+        self.search_kwargs = {"k": 3}
         self.vector_store = None
         self.retriever = None
 

@@ -7,8 +7,6 @@ from typing import List
 from langchain.chains import SequentialChain
 
 
-
-
 retrieval_chain = DocumentRetrievalChain()
 image_retrieval_chain = ImageRetrievalChain()
 encode_images=Encode_Images()
